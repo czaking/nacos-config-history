@@ -2,6 +2,15 @@
 
 **English** | [中文](#中文)
 
+## Why — MSE Nacos pain points this solves
+
+| Pain point in the MSE Nacos console | What this platform does |
+|---|---|
+| **Version history only kept ~30 days** — old versions silently expire | Persists **every config version into your own DB** (SQLite/Postgres) for **long-term retention** |
+| **No arbitrary version comparison** — console diff is only "version X vs latest" | **Diff any two historical versions** of any config, side by side |
+| **"Who changed it?" is hard to answer** — records expose opaque principalIds | Maps principalId → **real name via RAM ListUsers**, per-person summary + detail |
+| **Namespace truncation in SLS log analytics** (2048-char column limit) | Data pulled via **MSE OpenAPI**, namespaces stored with full ID/name |
+
 ## Features
 
 - **Change records** — pick a day and see who changed what (per-person summary + full detail).
@@ -135,6 +144,15 @@ Deployment notes:
 ## 中文
 
 [English](#nacos-config-history--config-change-audit-platform) | **中文**
+
+### 为什么做这个(解决的 MSE Nacos 痛点)
+
+| MSE Nacos 控制台的痛点 | 本平台的做法 |
+|---|---|
+| **配置历史只保留约 30 天**,过期版本找不回 | 每个配置版本**全量落自己的库**(SQLite/Postgres),**长期保存** |
+| **不能自选版本对比**,控制台只能「某版本 vs 最新版」 | **任意两个历史版本**自由选、并排 diff |
+| **说不清是谁改的**,变更记录只有 principalId | principalId → **RAM ListUsers 映射真实姓名**,按人汇总 + 明细 |
+| **SLS 日志分析里命名空间被截断**(2048 字符列上限) | 走 **MSE OpenAPI** 入库,命名空间以完整 ID/名称存储 |
 
 ### 功能
 
