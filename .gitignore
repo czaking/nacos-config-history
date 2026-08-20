@@ -1,0 +1,15 @@
+# build artifacts
+backend/web/
+backend/nacoshist
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+
+# node
+frontend/node_modules/
+frontend/dist/
+
+# local
+*.log
+.DS_Store

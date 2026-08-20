@@ -1,0 +1,17 @@
+# Release image built from pre-compiled artifacts (see build-push.sh).
+#
+# 为什么不在容器里编译:在 arm64 Mac 上用 QEMU 模拟 amd64 跑 Go 工具链会崩溃,
+# 而 Go 交叉编译在宿主机是零成本的。所以宿主机原生产出 linux/amd64 二进制 +
+# 前端 dist,这里只做打包(唯一执行的 amd64 代码是 apk,busybox 在 QEMU 下稳定)。
+#
+# 期望在构建前已存在:
+#   /tmp/nacoshist-linux-amd64   (GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build)
+#   frontend/dist                (vite build --outDir dist)
+FROM alpine:3.20
+RUN apk add --no-cache ca-certificates tzdata
+WORKDIR /app
+COPY nacoshist-linux-amd64 /app/nacoshist
+COPY web /app/web
+ENV STATIC_DIR=/app/web ADDR=:8080 DISPLAY_TZ=Asia/Shanghai
+EXPOSE 8080
+ENTRYPOINT ["/app/nacoshist"]
